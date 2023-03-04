@@ -1,4 +1,4 @@
-// Web Worker to check array lengths
+// Web Worker determines array lengths
 
 /* eslint-disable no-restricted-globals */
 import { profiles } from "../data";
