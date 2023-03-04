@@ -1,4 +1,4 @@
-import React from "react";
+// component will indiciate when process running in background
 
 type Props = {
  color?: "black" | "white";
