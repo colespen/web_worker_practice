@@ -34,15 +34,17 @@ const App = () => {
     value: 0,
   });
 
+  // initialize new web worker
   // wrapped to return cached value on subsequent calls which prevents re-initialization on re-renders
   const counter: Worker = useMemo(
-    // initialize new web worker
     // pass in new instance of generated URL that contains path to count worker file --- import.meta.url:
     // returns URL of current module's file and ensures that count.ts is loaded relative to current module's file location
     () => new Worker(new URL("./longProcesses/count.ts", import.meta.url)),
     []
   );
-// postMessage
+
+  // postMessage - send
+  // runs count worker on first re-render - checks if user's browser supports web workers before posting message
   useEffect(() => {
     if (window.Worker) {
       // use initialized counter to post message to count worker
@@ -50,8 +52,8 @@ const App = () => {
     }
   }, [counter]);
 
-  // onmessage
-  // set LengthCount state 
+  // onmessage - recieve
+  // set LengthCount state
   useEffect(() => {
     if (window.Worker) {
       // listening to messages
@@ -65,11 +67,9 @@ const App = () => {
     }
   }, [counter]);
 
-
-
   return (
     <main className="main-container">
-       <section className="count">
+      <section className="count">
         Total count of Profiles is{" "}
         <b>{lengthCount.loading ? <Loader size={14} /> : lengthCount.value}</b>
       </section>
