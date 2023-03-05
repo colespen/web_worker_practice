@@ -1,7 +1,7 @@
-import React from "react";
 import { ProfileType } from "../App";
 import { ProfileEnum } from "../longProcesses/enums";
 
+// define PropType
 type Props = {
   list: Array<ProfileType>;
 };
