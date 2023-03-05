@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { processList } from "./longProcesses/enums";
-
+import { useEffect, useMemo, useState } from "react";
 import Loader from "./components/Loader";
 import Table from "./components/Table";
+import Pagination from "./components/Pagination";
+import { processList } from "./longProcesses/enums";
 
 type LengthCountType = {
   loading: boolean;
@@ -42,7 +42,10 @@ const App = () => {
     page: 1,
   });
 
-  // initialize new web worker
+  /////////////////////////////////////////////////////////////////////
+  ////// initialize new web workers
+  ///////////////////////////////////////////////////////////////////
+
   // wrapped to return cached value on subsequent calls which prevents re-initialization on re-renders
   const counter: Worker = useMemo(
     // pass in new instance of generated URL that contains path to count worker file --- import.meta.url:
@@ -55,6 +58,10 @@ const App = () => {
     () => new Worker(new URL("./longProcesses/getData.ts", import.meta.url)),
     []
   );
+
+  /////////////////////////////////////////////////////////////////////
+  ////// counter web worker
+  ///////////////////////////////////////////////////////////////////
 
   // postMessage - send
   // runs count worker on first re-render - checks if user's browser supports web workers before posting message
@@ -79,6 +86,10 @@ const App = () => {
       };
     }
   }, [counter]);
+
+  /////////////////////////////////////////////////////////////////////
+  ////// getData web worker
+  ///////////////////////////////////////////////////////////////////
 
   // postMessage - send to getData worker on inital render
   useEffect(() => {
@@ -110,6 +121,50 @@ const App = () => {
     }
   }, [getData]);
 
+  /////////////////////////////////////////////////////////////////////
+  ////// event handlers - Pagination
+  ///////////////////////////////////////////////////////////////////
+
+  const handlePageNumber = (userSelectedPage: number) => {
+    if (window.Worker) {
+      const request = {
+        action: processList.getData,
+        period: "pageNumber",
+        thePageNumber: userSelectedPage,
+      } as GetDataType;
+
+      getData.postMessage(JSON.stringify(request));
+    }
+  };
+  const prevHandler = (userSelectedPage: number) => {
+    if (profileList.page === 1) {
+      return;
+    }
+
+    if (window.Worker) {
+      const request = {
+        action: processList.getData,
+        period: "prev",
+        thePageNumber: userSelectedPage - 1,
+      } as GetDataType;
+
+      getData.postMessage(JSON.stringify(request));
+    }
+  };
+  const nextHandler = (userSelectedPage: number, thePageLength: number) => {
+    if (userSelectedPage < thePageLength) {
+      if (window.Worker) {
+        const request = {
+          action: processList.getData,
+          period: "next",
+          thePageNumber: userSelectedPage + 1,
+        } as GetDataType;
+
+        getData.postMessage(JSON.stringify(request));
+      }
+    }
+  };
+
   return (
     <main className="main-container">
       <section className="count">
@@ -122,6 +177,17 @@ const App = () => {
         ) : (
           <>
             <Table list={profileList.list} />
+            <Pagination
+              page={profileList.page}
+              pages={lengthCount.value / listPageSize}
+              pageClick={(pageNumber) => {
+                handlePageNumber(pageNumber);
+              }}
+              prevHandler={() => prevHandler(profileList.page)}
+              nextHandler={() =>
+                nextHandler(profileList.page, lengthCount.value / listPageSize)
+              }
+            />
           </>
         )}
       </section>
