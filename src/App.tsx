@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { processList } from "./longProcesses/enums";
 
 import Loader from "./components/Loader";
+import Table from "./components/Table";
 
 type LengthCountType = {
   loading: boolean;
@@ -31,7 +32,6 @@ export type GetDataType = {
 export const listPageSize = 50;
 
 const App = () => {
-
   const [lengthCount, setLengthCount] = useState<LengthCountType>({
     loading: true,
     value: 0,
@@ -116,7 +116,15 @@ const App = () => {
         Total count of Profiles is{" "}
         <b>{lengthCount.loading ? <Loader size={14} /> : lengthCount.value}</b>
       </section>
-      <section className="table-container"></section>
+      <section className="table-container">
+        {profileList.loading ? (
+          <Loader size={40} display="block" />
+        ) : (
+          <>
+            <Table list={profileList.list} />
+          </>
+        )}
+      </section>
     </main>
   );
 };

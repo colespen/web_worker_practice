@@ -1,4 +1,9 @@
-# Getting Started with Create React App
+# WEB WORKER PRACTICE
+
+awesome tutorial from https://blog.logrocket.com/web-workers-react-typescript/
+
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

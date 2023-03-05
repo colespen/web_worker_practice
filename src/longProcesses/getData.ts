@@ -5,7 +5,7 @@ import { processList } from "./enums";
 
 self.onmessage = (e: MessageEvent<string>) => {
   // `as GetDataType` is type assertion
-  const data: GetDataType = JSON.parse(e.data);
+  const data = JSON.parse(e.data) as GetDataType;
 
   if (data.action !== processList.getData) {
     return;
