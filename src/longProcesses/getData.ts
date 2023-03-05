@@ -10,7 +10,7 @@ self.onmessage = (e: MessageEvent<string>) => {
   if (data.action !== processList.getData) {
     return;
   }
-  //  from itnerface: "initial" | "next" | "prev" | "pageNumber"
+  //  from interface: "initial" | "next" | "prev" | "pageNumber"
   if (data.period === "initial") {
     const items = profiles.filter((item, index) => index < listPageSize);
 

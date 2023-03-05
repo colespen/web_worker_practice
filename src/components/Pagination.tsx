@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef, useEffect } from "react";
 
 type Props = {
   page: number;
@@ -15,6 +15,19 @@ const Pagination = ({
   prevHandler,
   nextHandler,
 }: Props) => {
+  
+  const focusedElementRef = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    // Get the current focused element
+    const focusedElement = focusedElementRef.current;
+
+    // Scroll the focused element into view when it changes and the element exists
+    if (focusedElement) {
+      focusedElement.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [page, focusedElementRef]);
+
   return (
     <div className="pagination-container">
       <button className="prev" onClick={prevHandler} disabled={page === 1}>
@@ -25,6 +38,7 @@ const Pagination = ({
           return (
             <li
               key={i}
+              ref={page - 1 === i ? focusedElementRef : null}
               className={page - 1 === i ? "active page-item" : "page-item"}
               onClick={() => {
                 pageClick(x + 1);
