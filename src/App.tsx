@@ -29,7 +29,7 @@ export type GetDataType = {
   thePageNumber: number;
 };
 
-export const listPageSize = 50;
+export const listPageSize = 500;
 
 const App = () => {
   const [lengthCount, setLengthCount] = useState<LengthCountType>({
@@ -136,6 +136,7 @@ const App = () => {
       getData.postMessage(JSON.stringify(request));
     }
   };
+
   const prevHandler = (userSelectedPage: number) => {
     if (profileList.page === 1) {
       return;
@@ -151,6 +152,7 @@ const App = () => {
       getData.postMessage(JSON.stringify(request));
     }
   };
+
   const nextHandler = (userSelectedPage: number, thePageLength: number) => {
     if (userSelectedPage < thePageLength) {
       if (window.Worker) {

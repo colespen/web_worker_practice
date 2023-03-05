@@ -20,7 +20,9 @@ const Pagination = ({
         Prev
       </button>
       <ul className="pages-container">
-        {[...Array(Math.ceil(pages)).keys()].map((x, i) => {
+        {/* changed from spread operator below to avoid adding '--downlevelIteration' flag 
+        {[...Array(Math.ceil(pages)).keys()].map((x, i) => { */}
+        {Array.from(Array(Math.ceil(pages)).keys()).map((x, i) => {
           return (
             <li
               key={i}
