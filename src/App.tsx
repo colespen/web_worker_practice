@@ -34,23 +34,27 @@ const App = () => {
     value: 0,
   });
 
-  // wrapped to return cached value on subsequent calls 
+  // wrapped to return cached value on subsequent calls which prevents re-initialization on re-renders
   const counter: Worker = useMemo(
     // initialize new web worker
-    // import.meta.url returns URL of current module's file and ensures that count.ts is loaded relative to current module's file location
+    // pass in new instance of generated URL that contains path to count worker file --- import.meta.url:
+    // returns URL of current module's file and ensures that count.ts is loaded relative to current module's file location
     () => new Worker(new URL("./longProcesses/count.ts", import.meta.url)),
     []
   );
-
+// postMessage
   useEffect(() => {
     if (window.Worker) {
-      // use initialized counter to post message tp count worker
+      // use initialized counter to post message to count worker
       counter.postMessage(processList.count); // "count"
     }
   }, [counter]);
 
+  // onmessage
+  // set LengthCount state 
   useEffect(() => {
     if (window.Worker) {
+      // listening to messages
       counter.onmessage = (e: MessageEvent<string>) => {
         setLengthCount((prev) => ({
           ...prev,
@@ -65,7 +69,10 @@ const App = () => {
 
   return (
     <main className="main-container">
-      <section className="count"></section>
+       <section className="count">
+        Total count of Profiles is{" "}
+        <b>{lengthCount.loading ? <Loader size={14} /> : lengthCount.value}</b>
+      </section>
       <section className="table-container"></section>
     </main>
   );
