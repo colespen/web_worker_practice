@@ -29,7 +29,7 @@ export type GetDataType = {
   thePageNumber: number;
 };
 
-export const listPageSize = 500;
+export const listPageSize = 15;
 
 const App = () => {
   const [lengthCount, setLengthCount] = useState<LengthCountType>({

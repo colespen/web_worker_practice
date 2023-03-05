@@ -1,4 +1,4 @@
-# WEB WORKER PRACTICE
+# Web Worker Practice
 
 awesome tutorial from https://blog.logrocket.com/web-workers-react-typescript/
 

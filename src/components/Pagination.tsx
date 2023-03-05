@@ -1,3 +1,5 @@
+import React from "react";
+
 type Props = {
   page: number;
   pages: number;
@@ -13,15 +15,12 @@ const Pagination = ({
   prevHandler,
   nextHandler,
 }: Props) => {
-  
   return (
     <div className="pagination-container">
       <button className="prev" onClick={prevHandler} disabled={page === 1}>
         Prev
       </button>
       <ul className="pages-container">
-        {/* changed from spread operator below to avoid adding '--downlevelIteration' flag 
-        {[...Array(Math.ceil(pages)).keys()].map((x, i) => { */}
         {Array.from(Array(Math.ceil(pages)).keys()).map((x, i) => {
           return (
             <li
