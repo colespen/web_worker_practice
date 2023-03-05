@@ -31,12 +31,22 @@ const App = () => {
   const counter: Worker = useMemo(
     // pass in new instance of generated URL that contains path to count worker file --- import.meta.url:
     // returns URL of current module's file and ensures that count.ts is loaded relative to current module's file location
-    () => new Worker(new URL("./longProcesses/count.ts", import.meta.url)),
+    () => {
+      const worker = new Worker(
+        new URL("./longProcesses/count.ts", import.meta.url)
+      );
+      worker.onerror = (error) => error;
+      return worker;
+    },
     []
   );
 
   const getData: Worker = useMemo(
-    () => new Worker(new URL("./longProcesses/getData.ts", import.meta.url)),
+    () => {
+      const worker = new Worker(new URL("./longProcesses/getData.ts", import.meta.url));
+      worker.onerror = (error) => error;
+      return worker;
+    },
     []
   );
 
