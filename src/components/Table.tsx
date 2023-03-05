@@ -1,4 +1,4 @@
-import { ProfileType } from "../App";
+import { ProfileType } from "../types";
 import { ProfileEnum } from "../longProcesses/enums";
 
 // define PropType

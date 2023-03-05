@@ -88,6 +88,12 @@ td:first-child {
   overflow-x: scroll;
   padding-left: 0;
 }
+.pages-container::-webkit-scrollbar{
+  display: none;
+}
+.pages-container::-webkit-scrollbar {
+  width: 0 !important
+  }
 
 .pages-container > * {
   background-color: rgb(49, 150, 238);

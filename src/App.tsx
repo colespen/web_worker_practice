@@ -2,31 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import Loader from "./components/Loader";
 import Table from "./components/Table";
 import Pagination from "./components/Pagination";
+import { ProfileListType, GetDataType } from "./types";
 import { processList } from "./longProcesses/enums";
 
 type LengthCountType = {
   loading: boolean;
   value: number;
-};
-
-export type ProfileType = {
-  albumId: number | string;
-  id: number | string;
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-};
-
-export type ProfileListType = {
-  loading: boolean;
-  list: unknown & Array<ProfileType>;
-  page: number;
-};
-
-export type GetDataType = {
-  action: string;
-  period: "initial" | "next" | "prev" | "pageNumber";
-  thePageNumber: number;
 };
 
 export const listPageSize = 15;

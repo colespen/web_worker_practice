@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-globals */
-import { ProfileListType, GetDataType, listPageSize } from "../App";
+import {ProfileListType, GetDataType} from "../types"
+import { listPageSize } from "../App";
 import { profiles } from "../data";
 import { processList } from "./enums";
 
